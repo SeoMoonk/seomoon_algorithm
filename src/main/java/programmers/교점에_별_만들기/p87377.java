@@ -1,8 +1,6 @@
 package programmers.교점에_별_만들기;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class p87377 {
 
@@ -19,7 +17,6 @@ class Solution {
 
     //두 직선의 교점 구하기
     public Point intersection(int[] line1, int[] line2) {
-
 
         // Ax + By + E = 0
         double A = line1[0];
@@ -46,8 +43,9 @@ class Solution {
         return Point.of(x, y);
     }
 
-    public List<Point> intersections(int[][] line) {
-        List<Point> points = new ArrayList<>();
+    public Set<Point> intersections(int[][] line) {
+
+        Set <Point> points = new HashSet<>();
 
         for (int i = 0; i < line.length; i++) {
             for (int j = i + 1; j < line.length; j++) {
@@ -85,6 +83,7 @@ class Point {
         return of((long) x, (long) y);
     }
 
+    // 객체 비교, 가독성 좋음
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -92,6 +91,14 @@ class Point {
 
         if (x != point.x) return false;
         return y == point.y;
+    }
+
+    // 객체 비교, 객체로 부터 고유키를 뽑아낸다.(int), 대량비교 좋음, 가독성 나쁨
+    @Override
+    public int hashCode() {
+        int result = (int) (x ^ (x >>> 32));
+        result = 31 * result + (int) (y ^ (y >>> 32));
+        return result;
     }
 
     @Override
