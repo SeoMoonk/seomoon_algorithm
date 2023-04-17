@@ -10,13 +10,15 @@ class p87377Test {
 
     @Test
     @DisplayName("교점, [[1, -1, 0], [2, -1, 0]]")
-    void main() {
+    void t001() {
         assertThat(new Solution().intersection(
                         new int[]{1, -1, 0},
                         new int[]{2, -1, 0}
                 )
         ).isEqualTo(
-                new int[]{0, 0}
+                new long[]{0, 0}
         );
     }
+
+
 }
