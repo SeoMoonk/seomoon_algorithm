@@ -16,9 +16,35 @@ class p87377Test {
                         new int[]{2, -1, 0}
                 )
         ).isEqualTo(
-                new long[]{0, 0}
+                Point.of(0,0)
         );
     }
+
+    @Test
+    @DisplayName("교점, [[1, -1, 0], [4, -1, 0]]")
+    void t002() {
+        assertThat(new Solution().intersection(
+                        new int[]{1, -1, 0},
+                        new int[]{4, -1, 0}
+                )
+        ).isEqualTo(
+                Point.of(0, 0)
+        );
+    }
+
+    @Test
+    @DisplayName("교점, [[2, -1, 0], [4, -1, 0]]")
+    void t003() {
+        assertThat(new Solution().intersection(
+                        new int[]{2, -1, 0},
+                        new int[]{4, -1, 0}
+                )
+        ).isEqualTo(
+                Point.of(0, 0)
+        );
+    }
+
+
 
 
 }
