@@ -3,27 +3,29 @@ package programmers.교점에_별_만들기;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class p87377Test {
-
     @Test
     @DisplayName("교점, [[1, -1, 0], [2, -1, 0]]")
-    void t001() {
-        assertThat(new Solution().intersection(
+    void t1() {
+        assertThat(
+                new Solution().intersection(
                         new int[]{1, -1, 0},
                         new int[]{2, -1, 0}
                 )
         ).isEqualTo(
-                Point.of(0,0)
+                Point.of(0, 0)
         );
     }
 
     @Test
     @DisplayName("교점, [[1, -1, 0], [4, -1, 0]]")
-    void t002() {
-        assertThat(new Solution().intersection(
+    void t1_2() {
+        assertThat(
+                new Solution().intersection(
                         new int[]{1, -1, 0},
                         new int[]{4, -1, 0}
                 )
@@ -34,8 +36,9 @@ class p87377Test {
 
     @Test
     @DisplayName("교점, [[2, -1, 0], [4, -1, 0]]")
-    void t003() {
-        assertThat(new Solution().intersection(
+    void t1_3() {
+        assertThat(
+                new Solution().intersection(
                         new int[]{2, -1, 0},
                         new int[]{4, -1, 0}
                 )
@@ -44,7 +47,41 @@ class p87377Test {
         );
     }
 
+    @Test
+    @DisplayName("교점, [[0, 1, -1], [1, 0, -1]]")
+    void t1_4() {
+        assertThat(
+                new Solution().intersection(
+                        new int[]{0, 1, -1},
+                        new int[]{1, 0, -1}
+                )
+        ).isEqualTo(
+                Point.of(1, 1)
+        );
+    }
 
+    @Test
+    @DisplayName("교점, [[0, 1, -1], [1, 0, 1]]")
+    void t1_5() {
+        assertThat(
+                new Solution().intersection(
+                        new int[]{0, 1, -1},
+                        new int[]{1, 0, 1}
+                )
+        ).isEqualTo(
+                Point.of(-1, 1)
+        );
+    }
 
-
+    @Test
+    @DisplayName("교점들, [[1, -1, 0], [2, -1, 0]]")
+    void t2() {
+        assertThat(
+                new Solution().intersections(
+                        new int[][]{{0, 1, -1}, {1, 0, 1}}
+                )
+        ).isEqualTo(
+                List.of(Point.of(-1, 1))
+        );
+    }
 }

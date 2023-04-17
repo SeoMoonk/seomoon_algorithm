@@ -1,12 +1,12 @@
 package programmers.교점에_별_만들기;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class p87377 {
 
     public static void main(String[] args) {
-
-
 
     }
 }
@@ -18,7 +18,7 @@ class Solution {
     }
 
     //두 직선의 교점 구하기
-    public long[] intersection(int[] line1, int[] line2) {
+    public Point intersection(int[] line1, int[] line2) {
 
 
         // Ax + By + E = 0
@@ -44,11 +44,29 @@ class Solution {
         if(y != (long) y ) return null;
 
         return Point.of(x, y);
+    }
 
+    public List<Point> intersections(int[][] line) {
+        List<Point> points = new ArrayList<>();
+
+        for (int i = 0; i < line.length; i++) {
+            for (int j = i + 1; j < line.length; j++) {
+                int[] line1 = line[i];
+                int[] line2 = line[j];
+
+                Point point = intersection(line1, line2);
+
+                if (point != null) points.add(point);
+            }
+        }
+
+        return points;
     }
 }
 
 class Point {
+
+
     public final long x;
     public final long y;
 
@@ -74,5 +92,13 @@ class Point {
 
         if (x != point.x) return false;
         return y == point.y;
+    }
+
+    @Override
+    public String toString() {
+        return "Point{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
     }
 }
