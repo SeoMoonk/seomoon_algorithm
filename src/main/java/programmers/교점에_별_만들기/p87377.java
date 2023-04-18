@@ -15,7 +15,7 @@ class Solution {
         Points points = intersections(line);
 
         //매트릭스로 옮긴다.
-        char[][] matrix = transformToMatrix(points);
+        char[][] matrix = points.toMatrix();
 
         return drawOnCoordinate(matrix);
     }
@@ -65,31 +65,6 @@ class Solution {
             }
         }
         return points;
-    }
-
-    //Max와 Min을 통해 그려야 할 구간을 얻어냈다면, 우선 그 구간을 공백( . ) 으로 채움
-    public char[][] emptyMatrix(Points points) {
-        Point minPoint = points.getMinPoint();
-        Point maxPoint = points.getMaxPoint();
-
-        int width = (int) (maxPoint.x - minPoint.x + 1);
-        int height = (int) (maxPoint.y - minPoint.y + 1);
-
-        char[][] matrix = new char[height][width];
-
-        Arrays.stream(matrix).forEach(row -> Arrays.fill(row, '.'));
-
-        return matrix;
-    }
-
-    //공백으로 채워진 칸에. 얻어온 교점들을 그림.
-    public char[][] transformToMatrix(Points points) {
-        char[][] matrix = emptyMatrix(points);
-        points = points.positivePoints();
-
-        points.forEach(p -> matrix[(int) p.y][(int) p.x] = '*');
-
-        return matrix;
     }
 
     //What??
@@ -237,6 +212,31 @@ class Points implements Iterable<Point> {
                         .map(p -> Point.of(p.x - minPoint.x, p.y - minPoint.y))
                         .toArray(Point[]::new)
         );
+    }
+
+    //Max와 Min을 통해 그려야 할 구간을 얻어냈다면, 우선 그 구간을 공백( . ) 으로 채움
+    public char[][] emptyMatrix() {
+        Point minPoint = getMinPoint();
+        Point maxPoint = getMaxPoint();
+
+        int width = (int) (maxPoint.x - minPoint.x + 1);
+        int height = (int) (maxPoint.y - minPoint.y + 1);
+
+        char[][] matrix = new char[height][width];
+
+        Arrays.stream(matrix).forEach(row -> Arrays.fill(row, '.'));
+
+        return matrix;
+    }
+
+    //공백으로 채워진 칸에. 얻어온 교점들을 그림.
+    public char[][] toMatrix() {
+        char[][] matrix = emptyMatrix();
+        Points points = positivePoints();
+
+        points.forEach(p -> matrix[(int) p.y][(int) p.x] = '*');
+
+        return matrix;
     }
 }
 
