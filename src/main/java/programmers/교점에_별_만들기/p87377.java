@@ -67,37 +67,10 @@ class Solution {
         return points;
     }
 
-    // 교점을 찾아낼 때마다 최대치와 최소치를 갱신시킴.
-    // (필요한 구간만 뽑아서 별을 그리기 위함)
-    public Point getMinPoint(Points points) {
-        long x = Long.MAX_VALUE;
-        long y = Long.MAX_VALUE;
-
-
-        for (Point point : points) {
-            x = Math.min(x, point.x);
-            y = Math.min(y, point.y);
-        }
-
-        return Point.of(x, y);
-    }
-
-    public Point getMaxPoint(Points points) {
-        long x = Long.MIN_VALUE;
-        long y = Long.MIN_VALUE;
-
-        for (Point point : points) {
-            x = Math.max(x, point.x);
-            y = Math.max(y, point.y);
-        }
-
-        return Point.of(x, y);
-    }
-
     //Max와 Min을 통해 그려야 할 구간을 얻어냈다면, 우선 그 구간을 공백( . ) 으로 채움
     public char[][] emptyMatrix(Points points) {
-        Point minPoint = getMinPoint(points);
-        Point maxPoint = getMaxPoint(points);
+        Point minPoint = points.getMinPoint();
+        Point maxPoint = points.getMaxPoint();
 
         int width = (int) (maxPoint.x - minPoint.x + 1);
         int height = (int) (maxPoint.y - minPoint.y + 1);
@@ -111,7 +84,7 @@ class Solution {
 
     //What?? (교점들 모음?)
     public Points positivePoints(Points points) {
-        Point minPoint = getMinPoint(points);
+        Point minPoint = points.getMinPoint();
 
         return Points.of(
                 points.stream()
@@ -217,10 +190,6 @@ class Points implements Iterable<Point> {
         return data.add(point);
     }
 
-    public Set<Point> toSet() {
-        return data;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -241,6 +210,33 @@ class Points implements Iterable<Point> {
 
     public Stream<Point> stream() {
         return data.stream();
+    }
+
+    // 교점을 찾아낼 때마다 최대치와 최소치를 갱신시킴.
+    // (필요한 구간만 뽑아서 별을 그리기 위함)
+    public Point getMinPoint() {
+        long x = Long.MAX_VALUE;
+        long y = Long.MAX_VALUE;
+
+
+        for (Point point : data) {
+            x = Math.min(x, point.x);
+            y = Math.min(y, point.y);
+        }
+
+        return Point.of(x, y);
+    }
+
+    public Point getMaxPoint() {
+        long x = Long.MIN_VALUE;
+        long y = Long.MIN_VALUE;
+
+        for (Point point : data) {
+            x = Math.max(x, point.x);
+            y = Math.max(y, point.y);
+        }
+
+        return Point.of(x, y);
     }
 }
 
