@@ -3,7 +3,6 @@ package programmers.교점에_별_만들기;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -219,7 +218,6 @@ class p87377Test {
         );
     }
 
-
     @Test
     @DisplayName("transformToMatrix, [Point.of(1, 1), Point.of(-1, 1)]")
     void t7() {
@@ -313,6 +311,62 @@ class p87377Test {
                         "......",
                         "......",
                         ".....*"
+                }
+        );
+    }
+
+    @Test
+    @DisplayName("answer, [[1, -1, 0], [2, -1, 0]]")
+    void t09() {
+        assertThat(
+                new Solution().solution(new int[][]{{1, -1, 0}, {2, -1, 0}})
+        ).isEqualTo(
+                new String[]{"*"}
+        );
+    }
+
+    @Test
+    @DisplayName("answer, [[1, -1, 0], [2, -1, 0], [4, -1, 0]]")
+    void t09_2() {
+        assertThat(
+                new Solution().solution(new int[][]{{1, -1, 0}, {2, -1, 0}, {4, -1, 0}})
+        ).isEqualTo(
+                new String[]{"*"}
+        );
+    }
+
+    @Test
+    @DisplayName("answer, [[0, 1, -1], [1, 0, -1], [1, 0, 1]]")
+    void t09_3() {
+        assertThat(
+                new Solution().solution(new int[][]{{0, 1, -1}, {1, 0, -1}, {1, 0, 1}})
+        ).isEqualTo(
+                new String[]{"*.*"}
+        );
+    }
+
+    @Test
+    @DisplayName("solution, [[2, -1, 4], [-2, -1, 4], [0, -1, 1], [5, -8, -12], [5, 8, 12]]")
+    void t09_4() {
+        assertThat(
+                new Solution().solution(new int[][]{
+                        {2, -1, 4},
+                        {-2, -1, 4},
+                        {0, -1, 1},
+                        {5, -8, -12},
+                        {5, 8, 12}
+                })
+        ).isEqualTo(
+                new String[]{
+                        "....*....",
+                        ".........",
+                        ".........",
+                        "*.......*",
+                        ".........",
+                        ".........",
+                        ".........",
+                        ".........",
+                        "*.......*"
                 }
         );
     }

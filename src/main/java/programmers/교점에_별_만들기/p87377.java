@@ -9,8 +9,14 @@ public class p87377 {
 
 class Solution {
     public String[] solution(int[][] line) {
-        String[] answer = {};
-        return answer;
+
+        //교점들을 구한다.
+        Set<Point> points = intersections(line);
+
+        //매트릭스로 옮긴다.
+        char[][] matrix = transformToMatrix(points);
+
+        return drawOnCoordinate(matrix);
     }
 
     //두 직선의 교점 구하기
@@ -52,15 +58,20 @@ class Solution {
 
                 Point point = intersection(line1, line2);
 
-                if (point != null) points.add(point);
+                if (point != null) {
+                    points.add(point);
+                }
             }
         }
         return points;
     }
 
+    // 교점을 찾아낼 때마다 최대치와 최소치를 갱신시킴.
+    // (필요한 구간만 뽑아서 별을 그리기 위함)
     public Point getMinPoint(Set<Point> points) {
         long x = Long.MAX_VALUE;
         long y = Long.MAX_VALUE;
+
 
         for (Point point : points) {
             x = Math.min(x, point.x);
@@ -82,6 +93,7 @@ class Solution {
         return Point.of(x, y);
     }
 
+    //Max와 Min을 통해 그려야 할 구간을 얻어냈다면, 우선 그 구간을 공백( . ) 으로 채움
     public char[][] emptyMatrix(Set<Point> points) {
         Point minPoint = getMinPoint(points);
         Point maxPoint = getMaxPoint(points);
@@ -96,6 +108,7 @@ class Solution {
         return matrix;
     }
 
+    //What?? (교점들 모음?)
     public Set<Point> positivePoints(Set<Point> points) {
         Point minPoint = getMinPoint(points);
 
@@ -104,6 +117,7 @@ class Solution {
                 .collect(Collectors.toSet());
     }
 
+    //공백으로 채워진 칸에. 얻어온 교점들을 그림.
     public char[][] transformToMatrix(Set<Point> points) {
         char[][] matrix = emptyMatrix(points);
         points = positivePoints(points);
@@ -113,6 +127,7 @@ class Solution {
         return matrix;
     }
 
+    //What??
     public String[] drawOnCoordinate(char[][] matrix) {
         return Ut.revRange(0, matrix.length)
                 .boxed()
@@ -122,6 +137,7 @@ class Solution {
     }
 }
 
+//Point 세팅
 class Point {
 
     public final long x;
@@ -146,7 +162,9 @@ class Point {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Point point)) return false;
+        if (!(o instanceof Point)) return false;
+
+        Point point = (Point) o;
 
         if (x != point.x) return false;
         return y == point.y;
