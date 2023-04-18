@@ -21,7 +21,7 @@ class Solution {
     }
 
     //두 직선의 교점 구하기
-    public Point intersection(int[] line1, int[] line2) {
+    Point intersection(int[] line1, int[] line2) {
 
         // Ax + By + E = 0
         double A = line1[0];
@@ -48,7 +48,7 @@ class Solution {
         return Point.of(x, y);
     }
 
-    public Points intersections(int[][] line) {
+    Points intersections(int[][] line) {
 
         Points points = Points.of();
 
@@ -68,7 +68,7 @@ class Solution {
     }
 
     //What??
-    public String[] drawOnCoordinate(char[][] matrix) {
+    String[] drawOnCoordinate(char[][] matrix) {
         return Ut.revRange(0, matrix.length)
                 .boxed()
                 .map(i -> matrix[i])
@@ -178,7 +178,7 @@ class Points implements Iterable<Point> {
 
     // 교점을 찾아낼 때마다 최대치와 최소치를 갱신시킴.
     // (필요한 구간만 뽑아서 별을 그리기 위함)
-    public Point getMinPoint() {
+    Point getMinPoint() {
         long x = Long.MAX_VALUE;
         long y = Long.MAX_VALUE;
 
@@ -191,7 +191,7 @@ class Points implements Iterable<Point> {
         return Point.of(x, y);
     }
 
-    public Point getMaxPoint() {
+    Point getMaxPoint() {
         long x = Long.MIN_VALUE;
         long y = Long.MIN_VALUE;
 
@@ -204,7 +204,7 @@ class Points implements Iterable<Point> {
     }
 
     //What?? (교점들 모음?)
-    public Points positivePoints() {
+    Points positivePoints() {
         Point minPoint = getMinPoint();
 
         return Points.of(
@@ -215,7 +215,7 @@ class Points implements Iterable<Point> {
     }
 
     //Max와 Min을 통해 그려야 할 구간을 얻어냈다면, 우선 그 구간을 공백( . ) 으로 채움
-    public char[][] emptyMatrix() {
+    char[][] emptyMatrix() {
         Point minPoint = getMinPoint();
         Point maxPoint = getMaxPoint();
 
@@ -241,7 +241,7 @@ class Points implements Iterable<Point> {
 }
 
 class Ut {
-    static IntStream revRange(int from, int to) {
+    public static IntStream revRange(int from, int to) {
         return IntStream.range(from, to)
                 .map(i -> to - i + from - 1);
     }
