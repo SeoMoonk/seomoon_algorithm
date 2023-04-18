@@ -187,6 +187,30 @@ class Point {
     }
 }
 
+class Points {
+    private final Set<Point> data;
+
+    public Points(Set<Point> data) {
+        this.data = data;
+    }
+
+    // Point... 는 Point[] 와 같은 뜻
+    // Point... 의 특수기능 : 가변인자
+    // Points.of(arg1);
+    // Points.of(arg1, arg2);
+    // Points.of(arg1, arg2, agr3);
+    public static Points of(Point... pointArray) {
+        // 입력받은 배열을 HashSet 형태로 하다.
+        // Collectors.toSet() 를 사용하지 않는 이유 : 우리는 mutable 한것을 원한다.
+        // mutable : 수정가능
+        // immutable : 수정불가능(add, remove 등이 안됨)
+        return new Points(
+                Arrays.stream(pointArray)
+                        .collect(Collectors.toCollection(HashSet::new))
+        );
+    }
+}
+
 class Ut {
     static IntStream revRange(int from, int to) {
         return IntStream.range(from, to)
