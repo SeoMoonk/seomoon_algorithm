@@ -3,6 +3,7 @@ package programmers.교점에_별_만들기;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class p87377 {
 }
@@ -11,7 +12,7 @@ class Solution {
     public String[] solution(int[][] line) {
 
         //교점들을 구한다.
-        Set<Point> points = intersections(line);
+        Points points = intersections(line);
 
         //매트릭스로 옮긴다.
         char[][] matrix = transformToMatrix(points);
@@ -47,9 +48,9 @@ class Solution {
         return Point.of(x, y);
     }
 
-    public Set<Point> intersections(int[][] line) {
+    public Points intersections(int[][] line) {
 
-        Set <Point> points = new HashSet<>();
+        Points points = Points.of();
 
         for (int i = 0; i < line.length; i++) {
             for (int j = i + 1; j < line.length; j++) {
@@ -68,7 +69,7 @@ class Solution {
 
     // 교점을 찾아낼 때마다 최대치와 최소치를 갱신시킴.
     // (필요한 구간만 뽑아서 별을 그리기 위함)
-    public Point getMinPoint(Set<Point> points) {
+    public Point getMinPoint(Points points) {
         long x = Long.MAX_VALUE;
         long y = Long.MAX_VALUE;
 
@@ -81,7 +82,7 @@ class Solution {
         return Point.of(x, y);
     }
 
-    public Point getMaxPoint(Set<Point> points) {
+    public Point getMaxPoint(Points points) {
         long x = Long.MIN_VALUE;
         long y = Long.MIN_VALUE;
 
@@ -94,7 +95,7 @@ class Solution {
     }
 
     //Max와 Min을 통해 그려야 할 구간을 얻어냈다면, 우선 그 구간을 공백( . ) 으로 채움
-    public char[][] emptyMatrix(Set<Point> points) {
+    public char[][] emptyMatrix(Points points) {
         Point minPoint = getMinPoint(points);
         Point maxPoint = getMaxPoint(points);
 
@@ -109,16 +110,18 @@ class Solution {
     }
 
     //What?? (교점들 모음?)
-    public Set<Point> positivePoints(Set<Point> points) {
+    public Points positivePoints(Points points) {
         Point minPoint = getMinPoint(points);
 
-        return points.stream()
-                .map(p -> Point.of(p.x - minPoint.x, p.y - minPoint.y))
-                .collect(Collectors.toSet());
+        return Points.of(
+                points.stream()
+                        .map(p -> Point.of(p.x - minPoint.x, p.y - minPoint.y))
+                        .toArray(Point[]::new)
+        );
     }
 
     //공백으로 채워진 칸에. 얻어온 교점들을 그림.
-    public char[][] transformToMatrix(Set<Point> points) {
+    public char[][] transformToMatrix(Points points) {
         char[][] matrix = emptyMatrix(points);
         points = positivePoints(points);
 
@@ -187,10 +190,10 @@ class Point {
     }
 }
 
-class Points {
+class Points implements Iterable<Point> {
     private final Set<Point> data;
 
-    public Points(Set<Point> data) {
+    private Points(Set<Point> data) {
         this.data = data;
     }
 
@@ -208,6 +211,36 @@ class Points {
                 Arrays.stream(pointArray)
                         .collect(Collectors.toCollection(HashSet::new))
         );
+    }
+
+    public boolean add(Point point) {
+        return data.add(point);
+    }
+
+    public Set<Point> toSet() {
+        return data;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Points points)) return false;
+
+        return Objects.equals(data, points.data);
+    }
+
+    @Override
+    public int hashCode() {
+        return data != null ? data.hashCode() : 0;
+    }
+
+    @Override
+    public Iterator<Point> iterator() {
+        return data.iterator();
+    }
+
+    public Stream<Point> stream() {
+        return data.stream();
     }
 }
 
