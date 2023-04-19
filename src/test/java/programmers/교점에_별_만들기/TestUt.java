@@ -1,29 +1,25 @@
 package programmers.교점에_별_만들기;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Arrays;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+public class TestUt {
+    public static <T> T call(Object obj, String methodName, Object... args) {
+        try {
+            Class<?>[] argTypes = Arrays.stream(args)
+                    .map(Object::getClass)
+                    .toArray(Class<?>[]::new);
 
-class TestUt {
-
-
-    @Test
-    @DisplayName("t001")
-    void t001(){
-
-        // 일반호출
-        new Solution().intersection(
-                new int[]{1, -1, 0},
-                new int[]{2, -1, 0}
-        );
-
-        // 리플렉션을 이용한 호출
-        (Point) TestUt.call(
-                new Solution(),
-                "intersection",
-                new int[]{1, -1, 0},
-                new int[]{2, -1, 0}
-        );
+            Method method = obj.getClass().getDeclaredMethod(methodName, argTypes);
+            method.setAccessible(true);
+            return (T) method.invoke(obj, args);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

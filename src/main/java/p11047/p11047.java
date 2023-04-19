@@ -9,7 +9,6 @@ public class p11047 {
 
     public static void main(String[] args) {
 
-
         Scanner sc = new Scanner(System.in);
 
         n = sc.nextInt();       //동전의 종류 수

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
-class p87377Test {
+class SolutionTests {
     @Test
     @DisplayName("교점, [[1, -1, 0], [2, -1, 0]]")
     void t01() {
