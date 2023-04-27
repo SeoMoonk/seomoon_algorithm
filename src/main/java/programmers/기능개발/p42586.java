@@ -44,7 +44,6 @@ class Solution {
                     result.pop();
                 }
             }
-
             //이번 for 루프를 돌 동안에는 j가 얼마나 증가했는가?
             answer.add(j - prev_j);
 
