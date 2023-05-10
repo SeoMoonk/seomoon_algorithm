@@ -57,6 +57,5 @@ class Solution {
         answer.removeIf(n -> (n == 0));
 
         return answer;
-
     }
 }
