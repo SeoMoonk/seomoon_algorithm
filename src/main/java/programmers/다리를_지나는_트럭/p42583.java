@@ -30,77 +30,41 @@ public class p42583 {
 
 class Solution {
     public int solution(int bridge_length, int weight, int[] truck_weights) {
-
-        //bridge_length = 다리에 올라갈 수 있는 차량의 수 이면서, 다리의 길이
-        //weight = 다리가 버틸 수 있는 최대 무게
-        //truck_weights = 트럭들의 무게 배열
-
         int answer = 0;
-        int now_length = weight;
-        int time_count = 0;         // = answer
+        int now_length = bridge_length;
+        int time_count = 0;
 
-        //얼마나 더 가야하는가? (feat. now_length)
         LinkedList<Integer> lengthList = new LinkedList<>();
+        LinkedList<Integer> truckList = new LinkedList<>();
+        LinkedList<Integer> passingList = new LinkedList<>();
+        LinkedList<Integer> endList = new LinkedList<>();
 
-        LinkedList<Integer> truckList = new LinkedList<>();      //대기 트럭
-        LinkedList<Integer> passingList = new LinkedList<>();    //다리를 건너고 있는 트럭
-        LinkedList<Integer> endList = new LinkedList<>();        //다리를 다 지난 트럭
-
-        //배열을 큐로 만듦.
-        for(int i=0; i<truck_weights.length; i++)
-        {
+        for (int i = 0; i < truck_weights.length; i++) {
             truckList.offer(truck_weights[i]);
         }
 
-        //트럭 리스트가 비지 않았고, 엔드 리스트의 값이 length가 아닌 동안
-
-        boolean isComplete = false;
-
-
-        while(!truckList.isEmpty() || !isComplete)
-        {
-            isComplete = endList.size() == truck_weights.length;
-
-            //지나고 있는 트럭이 있을 때
-            if(!passingList.isEmpty())
-            {
-                //passingList 내의 모든 내용들
-                for (int i = 0; i < passingList.size(); i++)
-                {
-                    //길이 감소
-                    int setLength = lengthList.get(i) - passingList.get(i);
-
+        while (!truckList.isEmpty() || !passingList.isEmpty()) {
+            if (!passingList.isEmpty()) {
+                for (int i = 0; i < passingList.size(); i++) {
+                    int setLength = lengthList.get(i) - 1;
                     lengthList.set(i, setLength);
-
                 }
 
-                for(int i=0; i<lengthList.size(); i++) {
-                    //다 지나갔다면
+                for (int i = 0; i < lengthList.size(); i++) {
                     if (lengthList.get(i) <= 0) {
-                        //다리의 길이를 다시 늘려주고
-                        now_length += passingList.get(i);
-
-                        //지나고 있는 리스트에서 제외, 끝난 리스트에 추가
+                        weight += passingList.get(i);
                         endList.add(passingList.poll());
-
                         lengthList.poll();
-
                         i--;
                     }
                 }
-
             }
 
-            if(!truckList.isEmpty())
-            {
-                //현재 남은 길이에 트럭의 적재가 가능한가?
-                boolean canLoading = now_length - truckList.peek() >= 0;
-
-                //적재하기
-                if(canLoading)
-                {
-                    now_length -= truckList.peek();
-                    lengthList.offer(weight);
+            if (!truckList.isEmpty()) {
+                boolean canLoading = weight - truckList.peek() >= 0;
+                if (canLoading) {
+                    weight -= truckList.peek();
+                    lengthList.offer(bridge_length);
                     passingList.offer(truckList.poll());
                 }
             }
@@ -108,7 +72,7 @@ class Solution {
             time_count++;
         }
 
-        answer = time_count-1;
+        answer = time_count;
 
         return answer;
     }
